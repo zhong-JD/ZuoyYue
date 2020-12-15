@@ -24,4 +24,21 @@ public class UserInfoController {
         return allUser;
 
     }
+    //根据用户实体查询用户数据
+    @GetMapping("findByUserInfo")
+    public List<UserInfo>  findByUserInfo(UserInfo userInfo){
+        //调用service查询所有用户数据
+        List<UserInfo> allUser = this.userInfoService.findByUserInfo(userInfo);
+        return allUser;
+
+    }
+    //根据名字模糊查询用户
+    @GetMapping("/findUserByName")
+    public List<UserInfo>  findUserByName(UserInfo userInfo){
+        //调用service查询所有用户数据
+        List<UserInfo> allUser = this.userInfoService.findByUserLike(userInfo);
+        return allUser;
+
+    }
+
 }
