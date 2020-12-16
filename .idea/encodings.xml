@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding" native2AsciiForPropertiesFiles="true">
+    <file url="file://$PROJECT_DIR$/springboot-mapper" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/zhuoyue-parent" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/zhuoyue-parent/zhuoyue-bean" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/zhuoyue-parent/zhuoyue-common-util" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/zhuoyue-parent/zhuoyue-interface" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/zhuoyue-parent/zhuoyue-order-service" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/zhuoyue-parent/zhuoyue-order-web" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/zhuoyue-parent/zhuoyue-service-util" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/zhuoyue-parent/zhuoyue-usermanage-web" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/zhuoyue-parent/zhuoyue-userservice-consumer" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/zhuoyue-parent/zhuoyue-userservice-provider" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/zhuoyue-parent/zhuoyue-web-util" charset="UTF-8" />
+  </component>
+</project>
