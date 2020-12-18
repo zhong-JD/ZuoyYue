@@ -1,16 +1,12 @@
 package com.icis.servie.impl;
 
 import com.alibaba.dubbo.config.annotation.Service;
-import com.icis.mapper.BaseAttrInfoMapper;
-import com.icis.mapper.BaseCatalog1Mapper;
-import com.icis.mapper.BaseCatalog2Mapper;
-import com.icis.mapper.BaseCatalog3Mapper;
-import com.icis.pojo.BaseAttrInfo;
-import com.icis.pojo.BaseCatalog1;
-import com.icis.pojo.BaseCatalog2;
-import com.icis.pojo.BaseCatalog3;
+import com.icis.mapper.*;
+import com.icis.pojo.*;
 import com.icis.service.ManageService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
 
@@ -26,6 +22,10 @@ public class ManageServieImpl implements ManageService{
     private BaseCatalog3Mapper baseCatalog3Mapper;
     @Autowired
     private BaseAttrInfoMapper baseAttrInfoMapper;
+
+    //注入平台属性值mapper
+    @Autowired
+    private BaseAttrValueMapper baseAttrValueMapper;
 
     @Override
     public List<BaseCatalog1> getCal1() {
@@ -58,4 +58,45 @@ public class ManageServieImpl implements ManageService{
 
         return this.baseAttrInfoMapper.select(baseArriInfo);
     }
+    //添加平台属性实现
+    @Override
+    @Transactional
+    public void saveAttrInfo(BaseAttrInfo baseAttrInfo) {
+        //如果有id 或者id 不为空  做修改操作
+        if(baseAttrInfo.getId()!=null && baseAttrInfo.getId().length()>0){
+            //执行修改平台属性
+            this.baseAttrInfoMapper.updateByPrimaryKeySelective(baseAttrInfo);
+        }else {
+            //如果没有id 做添加操作
+            //1.添加平台属性
+            this.baseAttrInfoMapper.insertSelective(baseAttrInfo);
+        }
+        //清空当前平台属性的平台属性值
+        BaseAttrValue delBaseArrtValue=new BaseAttrValue();
+        delBaseArrtValue.setAttrId(baseAttrInfo.getId());
+        this.baseAttrValueMapper.delete(delBaseArrtValue);
+        //2.添加平台属性值
+        //2.1 获得对应的平台属性值
+        List<BaseAttrValue> attrValueList = baseAttrInfo.getAttrValueList();
+        //2.2遍历集合  添加数据
+        if(attrValueList!=null && attrValueList.size()>0){
+            for (BaseAttrValue baseAttrValue : attrValueList) {
+                //2.3 给平台属性值设置对应的平台属性
+                baseAttrValue.setAttrId(baseAttrInfo.getId());
+                baseAttrValueMapper.insertSelective(baseAttrValue);
+            }
+        }
+
+
+    }
+
+    @Override
+    public List<BaseAttrValue> getAttrValueList(String attrId) {
+        BaseAttrValue baseAttrValue=new BaseAttrValue();
+        //设置条件
+        baseAttrValue.setAttrId(attrId);
+        //构建一个平台属性对象
+        return this.baseAttrValueMapper.select(baseAttrValue);
+    }
+
 }

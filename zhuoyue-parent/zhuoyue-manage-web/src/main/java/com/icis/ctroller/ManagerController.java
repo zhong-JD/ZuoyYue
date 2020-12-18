@@ -1,10 +1,7 @@
 package com.icis.ctroller;
 
 import com.alibaba.dubbo.config.annotation.Reference;
-import com.icis.pojo.BaseAttrInfo;
-import com.icis.pojo.BaseCatalog1;
-import com.icis.pojo.BaseCatalog2;
-import com.icis.pojo.BaseCatalog3;
+import com.icis.pojo.*;
 import com.icis.service.ManageService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -55,6 +52,19 @@ public class ManagerController {
         List<BaseAttrInfo> baseAttrInfos = this.manageService.getBaseAttrInfo(baseCatalog3);
         return baseAttrInfos;
 
+    }
+    //添加平台属性和属性值  修改  添加和修改  之前区分 id
+    @RequestMapping("/saveAttrInfo")
+    public void saveAttrInfo(@RequestBody BaseAttrInfo baseAttrInfo){
+        //调用service实现保存
+        this.manageService.saveAttrInfo(baseAttrInfo);
+
+    }
+    //查询平台属性值列表  getAttrValueList?attrId=98
+    @RequestMapping("/getAttrValueList")
+    public List<BaseAttrValue> getAttrValueList(String attrId){
+        //调用service实现方法
+       return this.manageService.getAttrValueList(attrId);
     }
 
 

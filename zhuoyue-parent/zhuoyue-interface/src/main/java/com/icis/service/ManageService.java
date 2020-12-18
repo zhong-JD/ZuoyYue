@@ -14,6 +14,10 @@ public interface ManageService {
     public List<BaseCatalog3> getCal3(BaseCatalog2 catalog2);
     //根据三级分裂  获得平台属性
     public List<BaseAttrInfo> getBaseAttrInfo(BaseCatalog3 catalog3);
+    //添加平台属性
+    void saveAttrInfo(BaseAttrInfo baseAttrInfo);
+    //根据平台属性id 查询平台属性值
+    List<BaseAttrValue> getAttrValueList(String attrId);
     //根据平台属性获得平台属性值
     //public List<BaseAttrValue> getBaseAttrValues(BaseAttrInfo baseAttrInfo);
 }

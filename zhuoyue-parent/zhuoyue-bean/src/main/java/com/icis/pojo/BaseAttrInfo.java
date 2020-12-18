@@ -2,9 +2,7 @@ package com.icis.pojo;
 
 import lombok.Data;
 
-import javax.persistence.Column;
-import javax.persistence.Id;
-import javax.persistence.Transient;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
 
@@ -13,6 +11,8 @@ import java.util.List;
 public class BaseAttrInfo implements Serializable{
     @Id
     @Column
+    //配置主键生成策略
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String id;
     @Column
     private String attrName;
