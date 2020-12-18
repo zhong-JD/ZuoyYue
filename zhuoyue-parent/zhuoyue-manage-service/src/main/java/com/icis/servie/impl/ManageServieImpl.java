@@ -6,7 +6,6 @@ import com.icis.pojo.*;
 import com.icis.service.ManageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
 
@@ -22,6 +21,10 @@ public class ManageServieImpl implements ManageService{
     private BaseCatalog3Mapper baseCatalog3Mapper;
     @Autowired
     private BaseAttrInfoMapper baseAttrInfoMapper;
+
+    //注入SpuMapper
+    @Autowired
+    private SpuMapper spuMapper;
 
     //注入平台属性值mapper
     @Autowired
@@ -97,6 +100,11 @@ public class ManageServieImpl implements ManageService{
         baseAttrValue.setAttrId(attrId);
         //构建一个平台属性对象
         return this.baseAttrValueMapper.select(baseAttrValue);
+    }
+    //获得spu集合实现方法
+    @Override
+    public List<SpuInfo> getSpuList(SpuInfo spuInfo) {
+        return this.spuMapper.select(spuInfo);
     }
 
 }

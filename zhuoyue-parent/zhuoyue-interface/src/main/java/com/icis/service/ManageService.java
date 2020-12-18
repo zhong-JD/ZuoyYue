@@ -18,6 +18,8 @@ public interface ManageService {
     void saveAttrInfo(BaseAttrInfo baseAttrInfo);
     //根据平台属性id 查询平台属性值
     List<BaseAttrValue> getAttrValueList(String attrId);
+    //根据三级分类id 获得spu集合
+    List<SpuInfo> getSpuList(SpuInfo spuInfo);
     //根据平台属性获得平台属性值
     //public List<BaseAttrValue> getBaseAttrValues(BaseAttrInfo baseAttrInfo);
 }
