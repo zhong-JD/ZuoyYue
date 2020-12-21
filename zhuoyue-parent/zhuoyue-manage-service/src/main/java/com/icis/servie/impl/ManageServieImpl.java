@@ -25,10 +25,24 @@ public class ManageServieImpl implements ManageService{
     //注入SpuMapper
     @Autowired
     private SpuMapper spuMapper;
+    //销售属性Mapper
+    @Autowired
+    private SpuSaleAttrMapper spuSaleAttrMapper;
+    //销售属性值Mapper
+    @Autowired
+    private SpuSaleAttrValueMapper spuSaleAttrValueMapper;
+    //spuImageMapper
+    @Autowired
+    private SpuImageMapper spuImageMapper;
 
     //注入平台属性值mapper
     @Autowired
     private BaseAttrValueMapper baseAttrValueMapper;
+
+    //注入销售属性Mapper
+    @Autowired
+    private BaseSaleAttrMapper baseSaleAttrMapper;
+
 
     @Override
     public List<BaseCatalog1> getCal1() {
@@ -105,6 +119,69 @@ public class ManageServieImpl implements ManageService{
     @Override
     public List<SpuInfo> getSpuList(SpuInfo spuInfo) {
         return this.spuMapper.select(spuInfo);
+    }
+
+    @Override
+    public List<BaseSaleAttr> getBaseSaleAttrList() {
+        //调用mapper实现数据的查询
+       return this.baseSaleAttrMapper.selectAll();
+
+    }
+    //实现保存Spu
+    @Override
+    @Transactional
+    public void saveSpuInfo(SpuInfo spuInfo) {
+       //1.判断spuInfo
+        if(spuInfo!=null){
+            //2.保存spu
+            this.spuMapper.insertSelective(spuInfo);
+            //3.获得销售属性列表  保存
+            List<SpuSaleAttr> spuSaleAttrList = spuInfo.getSpuSaleAttrList();
+            if(spuSaleAttrList!=null && spuSaleAttrList.size()>0){
+                for (SpuSaleAttr spuSaleAttr : spuSaleAttrList) {
+                    //保存销售属性
+                    //设置spuId
+                    spuSaleAttr.setSpuId(spuInfo.getId());
+                    //保存
+                    this.spuSaleAttrMapper.insertSelective(spuSaleAttr);
+                    //获得当前销售属性的销售属性值
+                    List<SpuSaleAttrValue> spuSaleAttrValueList = spuSaleAttr.getSpuSaleAttrValueList();
+                    if(spuSaleAttrValueList!=null && spuSaleAttrValueList.size()>0){
+                        for (SpuSaleAttrValue spuSaleAttrValue : spuSaleAttrValueList) {
+                            //设置SpuId
+                            spuSaleAttrValue.setSpuId(spuInfo.getId());
+                            //保存
+                            this.spuSaleAttrValueMapper.insertSelective(spuSaleAttrValue);
+                        }
+                    }
+                }
+            }
+
+            //3.1 保存完销售属性  根据销售属性获得销售属性值  保存
+            //4.获得spu图片列表 保存  注意  设置SpuId
+            List<SpuImage> spuImageList = spuInfo.getSpuImageList();
+            if(spuImageList!=null && spuImageList.size()>0){
+                for (SpuImage spuImage : spuImageList) {
+                    //设置SpuId
+                    spuImage.setSpuId(spuInfo.getId());
+                    //添加数据
+                    this.spuImageMapper.insertSelective(spuImage);
+                }
+            }
+
+        }else {
+            return;
+        }
+    }
+
+    @Override
+    public List<SpuImage> getSpuImageList(SpuImage spuImage) {
+        return this.spuImageMapper.select(spuImage);
+    }
+    //根据三级分类Id 获得平台属性和平台属性值
+    @Override
+    public List<BaseAttrInfo> attrInfoList(String catalog3Id) {
+        return baseAttrInfoMapper.attrInfoList(catalog3Id);
     }
 
 }

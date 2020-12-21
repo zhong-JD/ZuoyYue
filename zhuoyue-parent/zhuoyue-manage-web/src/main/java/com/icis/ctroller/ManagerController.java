@@ -48,8 +48,9 @@ public class ManagerController {
     public List<BaseAttrInfo> getAttrInfoList(String catalog3Id){
         BaseCatalog3 baseCatalog3=new BaseCatalog3();
         baseCatalog3.setId(catalog3Id);
-        //根据三级分类 获得 平台属性
-        List<BaseAttrInfo> baseAttrInfos = this.manageService.getBaseAttrInfo(baseCatalog3);
+        //根据三级分类 获得 平台属性   获取不到平台属性值
+        //List<BaseAttrInfo> baseAttrInfos = this.manageService.getBaseAttrInfo(baseCatalog3);
+        List<BaseAttrInfo> baseAttrInfos= this.manageService.attrInfoList(catalog3Id);
         return baseAttrInfos;
 
     }

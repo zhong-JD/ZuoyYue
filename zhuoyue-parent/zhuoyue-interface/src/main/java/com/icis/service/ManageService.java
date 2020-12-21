@@ -20,6 +20,15 @@ public interface ManageService {
     List<BaseAttrValue> getAttrValueList(String attrId);
     //根据三级分类id 获得spu集合
     List<SpuInfo> getSpuList(SpuInfo spuInfo);
+    //获得基本销售属性 数据
+    List<BaseSaleAttr> getBaseSaleAttrList();
+    //保存spu方法
+    void saveSpuInfo(SpuInfo spuInfo);
+    //根据SpuId获得图片列表
+    List<SpuImage> getSpuImageList(SpuImage spuImage);
+    //根据三级分类获得平台属性和平台属性值
+    List<BaseAttrInfo> attrInfoList(String catalog3Id);
+
     //根据平台属性获得平台属性值
     //public List<BaseAttrValue> getBaseAttrValues(BaseAttrInfo baseAttrInfo);
 }
