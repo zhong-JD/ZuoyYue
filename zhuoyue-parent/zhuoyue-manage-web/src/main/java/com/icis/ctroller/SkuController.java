@@ -1,10 +1,12 @@
 package com.icis.ctroller;
 
 import com.alibaba.dubbo.config.annotation.Reference;
+import com.icis.pojo.SkuInfo;
 import com.icis.pojo.SpuImage;
 import com.icis.service.ManageService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -26,5 +28,11 @@ public class SkuController {
     }
 
     //根据三级分类Id获得平台属性和平台属性值 http://localhost:8082/attrInfoList?catalog3Id=61
+    //保存sku数据包数据库表
+    @RequestMapping("/saveSkuInfo")
+    public void saveSkuInfo(@RequestBody SkuInfo skuInfo){
+        //调用servie执行保存操作
+        this.manageService.saveSkuInfo(skuInfo);
+    }
 
 }

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.icis.mapper.SpuSaleAttrMapper">
+    <!--创建一个映射结果集 配置映射关系-->
+    <resultMap id="saleAttriMap" type="SpuSaleAttr" autoMapping="true">
+        <id column="id" property="id"></id>
+        <collection property="spuSaleAttrValueList" ofType="SpuSaleAttrValue" autoMapping="true">
+            <id column="vid" property="id"></id>
+        </collection>
+    </resultMap>
+    <!--写sql进行查询-->
+    <select id="getSpuSaleAttrList" parameterType="String" resultMap="saleAttriMap">
+        SELECT
+          ssa.`id`,
+          ssa.`sale_attr_id`,
+          ssa.`sale_attr_name`,
+          ssa.`spu_id`,
+          ssav.`id` vid,
+          ssav.`sale_attr_id`,
+          ssav.`sale_attr_value_name`,
+          ssav.`spu_id`
+        FROM
+          `spu_sale_attr` ssa
+          INNER JOIN `spu_sale_attr_value` ssav
+           ON ssa.`sale_attr_id`=ssav.`sale_attr_id` AND  ssa.`spu_id`=ssav.`spu_id`
+            WHERE ssa.`spu_id`=#{spuId};
+            </select>
+</mapper>

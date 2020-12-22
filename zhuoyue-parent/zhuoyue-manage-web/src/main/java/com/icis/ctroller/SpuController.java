@@ -3,6 +3,7 @@ package com.icis.ctroller;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.icis.pojo.BaseSaleAttr;
 import com.icis.pojo.SpuInfo;
+import com.icis.pojo.SpuSaleAttr;
 import com.icis.service.ManageService;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -35,6 +36,12 @@ public class SpuController {
     public void saveSpuInfo(@RequestBody SpuInfo spuInfo){
         //调用service保存
       this.manageService.saveSpuInfo(spuInfo);
+    }
+    ///spuSaleAttrList?spuId=58
+    //根据SpuId 查询销售属性和销售属性值
+    @RequestMapping("/spuSaleAttrList")
+    public List<SpuSaleAttr> getSpuSaleAttrList(String spuId){
+        return  this.manageService.getSpuSaleAttrList(spuId);
     }
 
 }

@@ -43,6 +43,16 @@ public class ManageServieImpl implements ManageService{
     @Autowired
     private BaseSaleAttrMapper baseSaleAttrMapper;
 
+    //注入sku相关的mapper
+    @Autowired
+    private SkuInfoMapper skuInfoMapper;
+    @Autowired
+    private SkuSaleAttrValueMapper skuSaleAttrValueMapper;
+    @Autowired
+    private SkuAttrValueMapper skuAttrValueMapper;
+    @Autowired
+    private  SkuImageMapper skuImageMapper;
+
 
     @Override
     public List<BaseCatalog1> getCal1() {
@@ -182,6 +192,57 @@ public class ManageServieImpl implements ManageService{
     @Override
     public List<BaseAttrInfo> attrInfoList(String catalog3Id) {
         return baseAttrInfoMapper.attrInfoList(catalog3Id);
+    }
+    //实现  根据SpuId 查询销售属性和销售属性值
+    @Override
+    public List<SpuSaleAttr> getSpuSaleAttrList(String spuId) {
+        return spuSaleAttrMapper.getSpuSaleAttrList(spuId);
+    }
+    //保存sku数据
+    // 存储哪些业务需要?  1. 老项目或者传统 erp oa 进销存 2. 业务单一 一个业务 需要执行sql 60行
+    @Override
+    @Transactional
+    public void saveSkuInfo(SkuInfo skuInfo) {
+
+        if(skuInfo!=null){
+            //1. 保存sku
+            this.skuInfoMapper.insertSelective(skuInfo);
+            //2. 根据sku 获得平台属性值 保存
+            List<SkuAttrValue> skuAttrValueList = skuInfo.getSkuAttrValueList();
+            if(skuAttrValueList!=null && skuAttrValueList.size()>0){
+                //2.1 循环遍历  添加数据
+                for (SkuAttrValue skuAttrValue : skuAttrValueList) {
+                    //设置skuId
+                    skuAttrValue.setSkuId(skuInfo.getId());
+                    this.skuAttrValueMapper.insertSelective(skuAttrValue);
+                }
+            }
+
+            //3.根据sku 获得销售属性值  保存
+            List<SkuSaleAttrValue> skuSaleAttrValueList = skuInfo.getSkuSaleAttrValueList();
+            if(skuSaleAttrValueList!=null && skuSaleAttrValueList.size()>0){
+                for (SkuSaleAttrValue skuSaleAttrValue : skuSaleAttrValueList) {
+                    //设置skuId
+                    skuSaleAttrValue.setSkuId(skuInfo.getId());
+                    //保存销售属性值
+                    this.skuSaleAttrValueMapper.insertSelective(skuSaleAttrValue);
+                }
+            }
+
+            //4. 根据sku 获得sku图片集合  保存
+            List<SkuImage> skuImageList = skuInfo.getSkuImageList();
+            if(skuImageList!=null && skuImageList.size()>0){
+                //遍历 保存数据
+                for (SkuImage skuImage : skuImageList) {
+                    //设置skuId
+                    skuImage.setSkuId(skuInfo.getId());
+                    this.skuImageMapper.insertSelective(skuImage);
+                }
+            }
+
+        }
+
+
     }
 
 }

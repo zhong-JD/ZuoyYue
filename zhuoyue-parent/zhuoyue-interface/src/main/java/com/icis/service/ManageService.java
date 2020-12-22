@@ -28,6 +28,10 @@ public interface ManageService {
     List<SpuImage> getSpuImageList(SpuImage spuImage);
     //根据三级分类获得平台属性和平台属性值
     List<BaseAttrInfo> attrInfoList(String catalog3Id);
+    //根据SpuId 查询销售属性和销售属性值
+    List<SpuSaleAttr> getSpuSaleAttrList(String spuId);
+     //保存sku数据
+    void saveSkuInfo(SkuInfo skuInfo);
 
     //根据平台属性获得平台属性值
     //public List<BaseAttrValue> getBaseAttrValues(BaseAttrInfo baseAttrInfo);
